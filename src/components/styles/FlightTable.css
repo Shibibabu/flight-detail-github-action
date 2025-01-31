@@ -1,0 +1,138 @@
+/* SkyTrack Flight Table - Enhanced Styles */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+.route-container {
+	width: 90%;
+	max-width: 1200px;
+	margin: 0 auto;
+	min-height: 97vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#root {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+}
+
+body {
+	color: #333;
+	margin: 0;
+	padding: 20px;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	max-height: 100vh;
+	font-family: monospace;
+}
+
+body#root {
+	width: 100% !important;
+}
+
+.container {
+	width: 100%;
+	max-width: 1200px;
+	background: white;
+	padding: 20px;
+	border-radius: 12px;
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+	background: black;
+	overflow: scroll;
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	background: #F5F5F5;
+	border-radius: 12px;
+	overflow: hidden;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+td {
+	padding: 14px 20px;
+	font-size: 17px;
+	text-align: left;
+}
+
+th {
+	color: white;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+	border-bottom: 3px solid #0F5AB6;
+	padding: 14px 20px;
+	text-align: left;
+	font-size: 16px;
+	background: rgb(27, 26, 26);
+	color: white
+}
+
+tr:nth-child(even) {
+	background: rgb(27, 26, 26);
+	color: rgba(242, 197, 36, 0.743);
+}
+
+tr:nth-child(odd) {
+	background: rgb(38, 38, 38);
+	color: rgba(242, 197, 36, 0.743);
+}
+
+th:tr:hover {
+	cursor: auto;
+}
+
+tr:hover {
+	background: #c5a92d;
+	cursor: pointer;
+	transition: 0.5s ease-in-out;
+	color: black
+}
+
+.rows:hover {
+	color: black;
+}
+
+.status {
+	padding: 8px 14px;
+	border-radius: 20px;
+	font-weight: 600;
+	color: white;
+	text-align: center;
+	display: inline-block;
+	font-size: 14px;
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
+	display: flex;
+	justify-content: center;
+	max-width: 6rem;
+	margin-top: .5rem;
+}
+
+.status.on-time {
+	background: #077926;
+	box-shadow: 0 0 8px rgba(11, 143, 46, 0.5);
+}
+
+.status.delayed {
+	background: #d57011;
+	box-shadow: 0 0 8px rgba(207, 116, 11, 0.5);
+}
+
+.status.cancelled {
+	background: #8b150a;
+	box-shadow: 0 0 8px rgba(145, 17, 5, 0.5);
+}
+
+.status.boarding {
+	background: #0a3985;
+	box-shadow: 0 0 8px rgba(17, 59, 125, 0.5);
+}
+
+.status.departed {
+	background: #4c1083;
+	box-shadow: 0 0 8px rgba(75, 8, 133, 0.5);
+}
