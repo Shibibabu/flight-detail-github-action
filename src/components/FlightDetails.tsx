@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-
 import { Flight } from "../types/Flight";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router";
@@ -44,20 +43,35 @@ const FlightDetails: React.FC = () => {
       </div>
 
       <div className="flight-details-container">
-        <div className="flight-details">
-          <div>
-            <h1>Flight Details</h1>
+        <div className="flight-header">
+          <h1>Flight Details</h1>
+        </div>
+        <div className="flight-info">
+          <div className="flight-info-item">
+            <span className="label">Flight Number:</span>
+            <span>{flight.flightNumber}</span>
           </div>
-          <div>
-            <p>Flight Number: {flight.flightNumber}</p>
-            <p>Airline: {flight.airline}</p>
-            <p>Origin: {flight.origin}</p>
-            <p>Destination: {flight.destination}</p>
-            <p>
-              Departure Time:{" "}
+          <div className="flight-info-item">
+            <span className="label">Airline:</span>
+            <span>{flight.airline}</span>
+          </div>
+          <div className="flight-info-item">
+            <span className="label">Origin:</span>
+            <span>{flight.origin}</span>
+          </div>
+          <div className="flight-info-item">
+            <span className="label">Destination:</span>
+            <span>{flight.destination}</span>
+          </div>
+          <div className="flight-info-item">
+            <span className="label">Departure Time:</span>
+            <span>
               {moment(flight.departureTime).format("YYYY-MM-DD HH:mm")}
-            </p>
-            <p>Status: {flight.status}</p>
+            </span>
+          </div>
+          <div className="flight-info-item">
+            <span className="label">Status:</span>
+            <span>{flight.status}</span>
           </div>
         </div>
       </div>

@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-/* eslint-disable testing-library/prefer-find-by */
 import React from "react";
 import {
   act,
@@ -10,27 +8,22 @@ import {
 } from "@testing-library/react";
 import FlightTable from "../components/FlightTable";
 import axios from "axios";
-import { BrowserRouter as Router } from "react-router";
-import { jest } from "@jest/globals";
+import { useNavigate } from "react-router";
 
 const nv = jest.fn();
-const mockNavigate = jest.fn((arg1) => {
-  return jest.fn();
-}); // jest.fn();
 
-const _rec_router = jest.mock("react-router", () =>
-  Object.assign({}, jest.requireActual("react-router"), {
-    useNavigate: mockNavigate,
-  })
-);
+jest.mock("react-router", () => ({
+  useNavigate: jest.fn(),
+}));
+
 const mockedAxiosGet = jest.spyOn(axios, "get");
 
 describe("FlightTable Component", () => {
+  const mockNavigate = jest.fn();
+
   beforeEach(() => {
     jest.clearAllMocks();
-    mockNavigate.mockClear();
-    mockNavigate.mockRestore();
-    // mockNavigate.mockImplementation(jest.fn());
+    (useNavigate as jest.Mock).mockReturnValue(mockNavigate);
   });
 
   const mockFlights = [
@@ -50,20 +43,12 @@ describe("FlightTable Component", () => {
       data: mockFlights,
     });
 
-    render(
-      <Router>
-        <FlightTable />
-      </Router>
-    );
+    render(<FlightTable />);
 
-    expect(screen.getByTestId("spinner")).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByText("ABC123")).toBeInTheDocument());
-    await waitFor(() =>
-      expect(screen.getByText("Flight Number")).toBeInTheDocument()
-    );
-    await waitFor(() =>
-      expect(screen.getByText("On Time")).toBeInTheDocument()
-    );
+    expect(screen.getByTestId("spinner")).toBeVisible();
+    await screen.findByText("ABC123");
+    await screen.findByText("Flight Number");
+    await screen.findByText("On Time");
   });
   it("renders the flight table correctly - delayed", async () => {
     mockFlights[0].status = "Delayed";
@@ -71,20 +56,12 @@ describe("FlightTable Component", () => {
       data: mockFlights,
     });
 
-    render(
-      <Router>
-        <FlightTable />
-      </Router>
-    );
+    render(<FlightTable />);
 
-    expect(screen.getByTestId("spinner")).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByText("ABC123")).toBeInTheDocument());
-    await waitFor(() =>
-      expect(screen.getByText("Flight Number")).toBeInTheDocument()
-    );
-    await waitFor(() =>
-      expect(screen.getByText("Delayed")).toBeInTheDocument()
-    );
+    expect(screen.getByTestId("spinner")).toBeVisible();
+    await screen.findByText("ABC123");
+    await screen.findByText("Flight Number");
+    await screen.findByText("Delayed");
   });
 
   it("renders the flight table correctly - Boarding", async () => {
@@ -93,20 +70,12 @@ describe("FlightTable Component", () => {
       data: mockFlights,
     });
 
-    render(
-      <Router>
-        <FlightTable />
-      </Router>
-    );
+    render(<FlightTable />);
 
-    expect(screen.getByTestId("spinner")).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByText("ABC123")).toBeInTheDocument());
-    await waitFor(() =>
-      expect(screen.getByText("Flight Number")).toBeInTheDocument()
-    );
-    await waitFor(() =>
-      expect(screen.getByText("Boarding")).toBeInTheDocument()
-    );
+    expect(screen.getByTestId("spinner")).toBeVisible();
+    await screen.findByText("ABC123");
+    await screen.findByText("Flight Number");
+    await screen.findByText("Boarding");
   });
 
   it("renders the flight table correctly - Departed", async () => {
@@ -115,20 +84,12 @@ describe("FlightTable Component", () => {
       data: mockFlights,
     });
 
-    render(
-      <Router>
-        <FlightTable />
-      </Router>
-    );
+    render(<FlightTable />);
 
-    expect(screen.getByTestId("spinner")).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByText("ABC123")).toBeInTheDocument());
-    await waitFor(() =>
-      expect(screen.getByText("Flight Number")).toBeInTheDocument()
-    );
-    await waitFor(() =>
-      expect(screen.getByText("Departed")).toBeInTheDocument()
-    );
+    expect(screen.getByTestId("spinner")).toBeVisible();
+    await screen.findByText("ABC123");
+    await screen.findByText("Flight Number");
+    await screen.findByText("Departed");
   });
 
   it("renders the flight table correctly - Cancelled", async () => {
@@ -137,52 +98,50 @@ describe("FlightTable Component", () => {
       data: mockFlights,
     });
 
-    render(
-      <Router>
-        <FlightTable />
-      </Router>
-    );
+    render(<FlightTable />);
 
-    expect(screen.getByTestId("spinner")).toBeInTheDocument();
-    await waitFor(() => expect(screen.getByText("ABC123")).toBeInTheDocument());
-    await waitFor(() =>
-      expect(screen.getByText("Flight Number")).toBeInTheDocument()
-    );
-    await waitFor(() =>
-      expect(screen.getByText("Cancelled")).toBeInTheDocument()
-    );
+    expect(screen.getByTestId("spinner")).toBeVisible();
+    await screen.findByText("ABC123");
+    await screen.findByText("Flight Number");
+    await screen.findByText("Cancelled");
   });
 
   it("displays error message on API failure", async () => {
     mockedAxiosGet.mockRejectedValue(new Error("Network Error"));
 
-    render(
-      <Router>
-        <FlightTable />
-      </Router>
-    );
+    render(<FlightTable />);
 
-    await waitFor(() =>
-      expect(
-        screen.getByText(/Oops! Something Went Wrong/i)
-      ).toBeInTheDocument()
-    );
+    await screen.findByText(/Oops! Something Went Wrong/i);
   });
   it("updates flight data every 3 seconds", async () => {
     jest.useFakeTimers();
     mockedAxiosGet.mockResolvedValue({ data: mockFlights });
 
-    render(
-      <Router>
-        <FlightTable />
-      </Router>
-    );
+    render(<FlightTable />);
 
     expect(mockedAxiosGet).toHaveBeenCalledTimes(1);
-    jest.advanceTimersByTime(3000);
+    await act(() => {
+      jest.advanceTimersByTime(3000);
+    });
     await waitFor(() => expect(mockedAxiosGet).toHaveBeenCalledTimes(2));
-    jest.advanceTimersByTime(3000);
+    await act(() => {
+      jest.advanceTimersByTime(3000);
+    });
     await waitFor(() => expect(mockedAxiosGet).toHaveBeenCalledTimes(3));
-    jest.useRealTimers();
+  });
+
+  it("should navigate to the correct flight details page when a row is clicked", async () => {
+    jest.useFakeTimers();
+    mockedAxiosGet.mockResolvedValue({ data: mockFlights });
+    render(<FlightTable />);
+
+    await waitFor(() => {
+      expect(screen.getByTestId("flight-row-1")).toBeVisible();
+    });
+
+    fireEvent.click(screen.getByTestId("flight-row-1"));
+
+    expect(mockNavigate).toHaveBeenCalledTimes(1);
+    expect(mockNavigate).toHaveBeenCalledWith("/flight/1");
   });
 });
