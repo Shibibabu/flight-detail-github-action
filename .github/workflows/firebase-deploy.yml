@@ -30,8 +30,8 @@ jobs:
       - name: Build Project (if applicable)
         run: npm run build # Adjust based on your project
         
-      - name: Authenticate Firebase
-        run: firebase login:ci --no-localhost --token "${{ secrets.FIREBASE_TOKEN }}"
+      # - name: Authenticate Firebase
+      #   run: firebase login:ci --no-localhost --token "${{ secrets.FIREBASE_TOKEN }}"
 
       - name: Deploy to Firebase
         run: firebase deploy --only hosting:flight-v2 --project flight-details-b4fd2 --token "${{ secrets.FIREBASE_TOKEN }}"
