@@ -1,6 +1,7 @@
 {
   "hosting": {
-    "target": "flight-v2"
+    "target": "flight-v2",
+    "site": "flight-v2",
     "public": "build",
     "ignore": [
       "firebase.json",
