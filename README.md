@@ -1,6 +1,6 @@
 ## Hosting
 
-The website deployed in : https://flight-v2.web.app
+The hosted web-app available in : https://flight-v2.web.app
 
 ## To run the project
 
