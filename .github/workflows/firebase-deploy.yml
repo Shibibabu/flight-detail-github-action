@@ -30,3 +30,6 @@ jobs:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
           firebaseServiceAccount: "${{ secrets.FIREBASE_TOKEN }}"
           channelId: live
+          projectId: "flight-details-b4fd2"
+          target: "flight-v2"
+          
