@@ -44,7 +44,7 @@ const FlightDetails: React.FC = () => {
 
       <div className="flight-details-container">
         <div className="flight-header">
-          <h1>Flight Details.</h1>
+          <h1>Flight Details</h1>
         </div>
         <div className="flight-info">
           <div className="flight-info-item">
